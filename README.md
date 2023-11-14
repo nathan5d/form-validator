@@ -38,7 +38,7 @@ Define your form fields with unique IDs and associated error elements:
 </form>
 ```
 Use the framework in your script.js file:
-```html
+```javascript
 // Custom validation function
 function validateMyForm(event) {
     event.preventDefault();
@@ -89,7 +89,7 @@ document.getElementById('myForm').onsubmit = validateMyForm;
 ***Custom Translations:*** You can customize error messages for different languages by providing your own translations using the customTranslations parameter.
 
 ***Custom Validation:*** Add custom validation functions for specific fields by extending the validationOptions object.
-```html
+```javascript
 const validationOptions = {
     customField: {
         customValidation: function(value) {
