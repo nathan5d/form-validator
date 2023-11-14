@@ -1,0 +1,15 @@
+{
+  "name": "form-validator",
+  "version": "1.0.0",
+  "description": "A lightweight TypeScript framework for form validation",
+  "main": "dist/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "form",
+    "validation"
+  ],
+  "author": "Nathan Amaral",
+  "license": "MIT"
+}
