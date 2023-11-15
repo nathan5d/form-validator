@@ -34,32 +34,32 @@ const FormValidator = {
      * @property {string} fr.custom - Ce champ ne répond pas aux exigences de validation personnalisées.
      */
     defaultMessages: {
-      en: {
-        required: 'This field is required.',
-        minLength: 'This field must have at least {minLength} characters.',
-        isEmail: 'Please enter a valid email.',
-        custom: 'This field does not meet custom validation requirements.',
-      },
-      pt: {
-        required: 'Este campo é obrigatório.',
-        minLength: 'Este campo deve ter no mínimo {minLength} caracteres.',
-        isEmail: 'Por favor, insira um e-mail válido.',
-        custom: 'Este campo não atende aos requisitos personalizados de validação.',
-      },
-      es: {
-        required: 'Este campo es obligatorio.',
-        minLength: 'Este campo debe tener al menos {minLength} caracteres.',
-        isEmail: 'Por favor, ingrese un correo electrónico válido.',
-        custom: 'Este campo no cumple con los requisitos de validación personalizados.',
-      },
-      fr: {
-        required: 'Ce champ est obligatoire.',
-        minLength: 'Ce champ doit comporter au moins {minLength} caractères.',
-        isEmail: 'Veuillez saisir une adresse e-mail valide.',
-        custom: 'Ce champ ne répond pas aux exigences de validation personnalisées.',
-      },
+        en: {
+            required: 'This field is required.',
+            minLength: 'This field must have at least {minLength} characters.',
+            isEmail: 'Please enter a valid email.',
+            custom: 'This field does not meet custom validation requirements.',
+        },
+        pt: {
+            required: 'Este campo é obrigatório.',
+            minLength: 'Este campo deve ter no mínimo {minLength} caracteres.',
+            isEmail: 'Por favor, insira um e-mail válido.',
+            custom: 'Este campo não atende aos requisitos personalizados de validação.',
+        },
+        es: {
+            required: 'Este campo es obligatorio.',
+            minLength: 'Este campo debe tener al menos {minLength} caracteres.',
+            isEmail: 'Por favor, ingrese un correo electrónico válido.',
+            custom: 'Este campo no cumple con los requisitos de validación personalizados.',
+        },
+        fr: {
+            required: 'Ce champ est obligatoire.',
+            minLength: 'Ce champ doit comporter au moins {minLength} caractères.',
+            isEmail: 'Veuillez saisir une adresse e-mail valide.',
+            custom: 'Ce champ ne répond pas aux exigences de validation personnalisées.',
+        },
     },
-  
+
     /**
      * Validates a form based on specified validation options.
      * @param {string[]} fields - An array of field IDs to be validated.
@@ -69,26 +69,26 @@ const FormValidator = {
      * @returns {boolean} - `true` if the form is valid, `false` otherwise.
      */
     validateForm: function (fields, validationOptions, language = 'en', translations = {}) {
-      let isValid = true;
-      const currentMessages = { ...this.defaultMessages[language], ...translations[language] };
-  
-      fields.forEach((field) => {
-        const value = this.getElementValue(field);
-        const options = validationOptions[field];
-  
-        const errorMessage = this.getErrorMessage(options, value, currentMessages);
-  
-        if (errorMessage) {
-          isValid = false;
-          this.displayError(field, errorMessage);
-        } else {
-          this.clearError(field);
-        }
-      });
-  
-      return isValid;
+        let isValid = true;
+        const currentMessages = { ...this.defaultMessages[language], ...translations[language] };
+
+        fields.forEach((field) => {
+            const value = this.getElementValue(field);
+            const options = validationOptions[field];
+
+            const errorMessage = this.getErrorMessage(options, value, currentMessages);
+
+            if (errorMessage) {
+                isValid = false;
+                this.displayError(field, errorMessage);
+            } else {
+                this.clearError(field);
+            }
+        });
+
+        return isValid;
     },
-  
+
     /**
      * Gets the error message for a specific field.
      * @param {Object} options - Validation options for the field.
@@ -97,71 +97,71 @@ const FormValidator = {
      * @returns {string|null} - The error message or null if no error.
      */
     getErrorMessage: function (options, value, translations) {
-      if (options.required && (value.trim() === '' || value === null)) {
-        return translations.required;
-      } else if (options.minLength && value.length < options.minLength) {
-        return translations.minLength.replace('{minLength}', options.minLength);
-      } else if (options.customValidation && !options.customValidation(value)) {
-        return options.custom || translations.custom;
-      } else if (options.isEmail && !this.isEmail(value)) {
-        return translations.isEmail;
-      }
-  
-      return null;
+        if (options.required && (value.trim() === '' || value === null)) {
+            return translations && translations.required ? translations.required : this.defaultMessages.en.required;
+        } else if (options.minLength && value.length < options.minLength) {
+            return translations && translations.minLength ? translations.minLength.replace('{minLength}', options.minLength) : this.defaultMessages.en.minLength.replace('{minLength}', options.minLength);
+        } else if (options.customValidation && !options.customValidation(value)) {
+            return options.custom || (translations && translations.custom) ? translations.custom : this.defaultMessages.en.custom;
+        } else if (options.isEmail && !this.isEmail(value)) {
+            return translations && translations.isEmail ? translations.isEmail : this.defaultMessages.en.isEmail;
+        }
+
+        return null;
     },
-  
+
+
     /**
      * Checks if a string is a valid email address.
      * @param {string} email - The email address to be validated.
      * @returns {boolean} - `true` if the email is valid, `false` otherwise.
      */
     isEmail: function (email) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailRegex.test(email);
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
     },
-  
+
     /**
      * Displays an error message for a specific field.
      * @param {string} elementId - The ID of the form field.
      * @param {string} message - The error message to be displayed.
      */
     displayError: function (elementId, message) {
-      const errorElement = this.getElement(`${elementId}-error`);
-      if (errorElement) {
-        errorElement.textContent = message;
-        errorElement.style.display = 'block';
-      }
+        const errorElement = this.getElement(`${elementId}-error`);
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
     },
-  
+
     /**
      * Clears the error message for a specific field.
      * @param {string} elementId - The ID of the form field.
      */
     clearError: function (elementId) {
-      const errorElement = this.getElement(`${elementId}-error`);
-      if (errorElement) {
-        errorElement.textContent = '';
-        errorElement.style.display = 'none';
-      }
+        const errorElement = this.getElement(`${elementId}-error`);
+        if (errorElement) {
+            errorElement.textContent = '';
+            errorElement.style.display = 'none';
+        }
     },
-  
+
     /**
      * Gets the DOM element with the specified ID.
      * @param {string} elementId - The ID of the element.
      * @returns {HTMLElement|null} - The DOM element or null if not found.
      */
     getElement: function (elementId) {
-      return document.getElementById(elementId);
+        return document.getElementById(elementId);
     },
-  
+
     /**
      * Gets the value of a form field.
      * @param {string} elementId - The ID of the form field.
      * @returns {string} - The value of the form field.
      */
     getElementValue: function (elementId) {
-      const element = this.getElement(elementId);
-      return element ? element.value : '';
+        const element = this.getElement(elementId);
+        return element ? element.value : '';
     },
-  };
-  
+};
