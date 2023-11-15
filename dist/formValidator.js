@@ -97,16 +97,17 @@ const FormValidator = {
    * @returns {string|null} - The error message or null if no error.
    */
   getErrorMessage: function (options, value, translations) {
-    if (options.required && (value.trim() === '' || value === null)) {
-      return translations && translations.required ? translations.required : this.defaultMessages.en.required;
-    } else if (options.minLength && value.length < options.minLength) {
-      return translations && translations.minLength ? translations.minLength.replace('{minLength}', options.minLength) : this.defaultMessages.en.minLength.replace('{minLength}', options.minLength);
-    } else if (options.customValidation && !options.customValidation(value)) {
-      return options.custom || (translations && translations.custom) ? translations.custom : this.defaultMessages.en.custom;
-    } else if (options.isEmail && !this.isEmail(value)) {
-      return translations && translations.isEmail ? translations.isEmail : this.defaultMessages.en.isEmail;
+    if (options) {
+      if (options.required && (value.trim() === '' || value === null)) {
+        return translations && translations.required ? translations.required : (this.defaultMessages[language] && this.defaultMessages[language].required) || 'This field is required.';
+      } else if (options.minLength && value.length < options.minLength) {
+        return translations && translations.minLength ? translations.minLength.replace('{minLength}', options.minLength) : (this.defaultMessages[language] && this.defaultMessages[language].minLength.replace('{minLength}', options.minLength)) || 'This field must have at least {minLength} characters.';
+      } else if (options.customValidation && !options.customValidation(value)) {
+        return options.custom || (translations && translations.custom) ? translations.custom : (this.defaultMessages[language] && this.defaultMessages[language].custom) || 'This field does not meet custom validation requirements.';
+      } else if (options.isEmail && !this.isEmail(value)) {
+        return translations && translations.isEmail ? translations.isEmail : (this.defaultMessages[language] && this.defaultMessages[language].isEmail) || 'Please enter a valid email.';
+      }
     }
-
     return null;
   },
 
