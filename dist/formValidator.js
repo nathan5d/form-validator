@@ -147,31 +147,7 @@ const FormValidator = {
     }
   },
 
-  /**
-  * Displays a custom error message for a specific field.
-  * @param {string} elementId - The ID of the form field.
-  * @param {string} customMessage - The custom error message to be displayed.
-  */
-  displayErrorMessage: function (elementId, customMessage) {
-    const errorElement = this.getElement(`${elementId}-error`);
-    if (errorElement) {
-      errorElement.textContent = customMessage;
-      errorElement.style.display = 'block';
-    }
-  },
-
-  /**
-   * Clears a custom error message for a specific field.
-   * @param {string} elementId - The ID of the form field.
-   */
-  clearErrorMessage: function (elementId) {
-    const errorElement = this.getElement(`${elementId}-error`);
-    if (errorElement) {
-      errorElement.textContent = '';
-      errorElement.style.display = 'none';
-    }
-  },
-
+  
   /**
    * Gets the DOM element with the specified ID.
    * @param {string} elementId - The ID of the element.
